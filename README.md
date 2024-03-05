@@ -2,6 +2,7 @@
 Boilerplate NextJS app using Prisma, SQLite and some minor tailwind cleanup
 
 - Added Tailwind Forms Plugin
+- Added Fontawesome package
 
 ## General process taken
 
