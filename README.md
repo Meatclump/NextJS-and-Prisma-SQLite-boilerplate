@@ -1,7 +1,9 @@
 # NextJS-and-Prisma-SQLite-boilerplate
 Boilerplate NextJS app using Prisma, SQLite and some minor tailwind cleanup
 
-## General process
+- Added Tailwind Forms Plugin
+
+## General process taken
 
 1. Install Next JS in current dir with `npx create-next-app@latest .`
 2. Install Prisma as a dev dependency `npm i -D prisma`
