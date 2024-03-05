@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default async function Home() {
 	const user = await prisma.user.findFirst({
@@ -8,6 +10,8 @@ export default async function Home() {
 	})
 
 	return (
-		<main>Hello, {user?.email}</main>
+		<main>
+			Hello, {user?.email} <FontAwesomeIcon icon={faCoffee} />
+		</main>
 	);
 }
