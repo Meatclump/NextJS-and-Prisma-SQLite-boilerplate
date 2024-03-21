@@ -7,7 +7,7 @@ import authConfig from "@/auth.config"
 import { getUserById } from "@/data/user"
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation"
 
-type ExtendedUser = DefaultSession["user"] & {
+export type ExtendedUser = DefaultSession["user"] & {
 	id: string
 	role: "ADMIN" | "USER"
 }
