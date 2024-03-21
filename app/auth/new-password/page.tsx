@@ -1,7 +1,9 @@
-export const page = () => {
+import { NewPasswordForm } from "@/components/auth/new-password-form"
+
+export const NewPasswordPage = () => {
 	return (
-		<div>Password Reset Page</div>
+		<NewPasswordForm />
 	)
 }
 
-export default page
+export default NewPasswordPage
