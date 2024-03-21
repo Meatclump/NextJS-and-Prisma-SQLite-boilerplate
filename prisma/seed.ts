@@ -5,8 +5,10 @@ async function main() {
 		where: { email: 'testuser@email.com' },
 		update: {},
 		create: {
-			email: 'testuser@email.com',
 			name: 'Test User',
+			email: 'testuser@email.com',
+			password: '123456',
+			role: 'USER'
 		},
 	})
 }
