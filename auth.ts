@@ -37,6 +37,7 @@ export const {
 	},
 	callbacks: {
 		async signIn({ user, account }) {
+			console.log({user, account})
 			// Allow OAuth without email verification
 			if (account?.provider !== "credentials") return true
 			
@@ -70,13 +71,9 @@ export const {
 		},
 		async jwt({ token }) {
 			if (!token.sub) return token
-
 			const existingUser = await getUserById(token.sub)
-
 			if (!existingUser) return token
-
 			token.role = existingUser.role
-
 			return token
 		}
 	},

@@ -18,12 +18,11 @@ export const getVerificationTokenByToken = async (
 	token: string
 ) => {
 	try {
-		const verificationToken = await prisma.verificationToken.findUnique({
+		const verificationToken = await prisma.verificationToken.findFirst({
 			where: { token }
 		})
-
 		return verificationToken
-	} catch {
+	} catch (err) {
 		return null
 	}
 }
