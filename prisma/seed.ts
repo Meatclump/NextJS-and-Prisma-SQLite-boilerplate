@@ -1,25 +1,23 @@
-import { PrismaClient } from "@prisma/client";
-
-// https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding#seeding-your-database-with-typescript-or-javascript
-
+import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-
 async function main() {
-	const user = await prisma.user.upsert({
-		where: { email: 'test@test.com' },
+	const testUser = await prisma.user.upsert({
+		where: { email: 'testuser@email.com' },
 		update: {},
 		create: {
-			email: 'test@test.com',
-			password: `123456`
+			name: 'Test User',
+			email: 'testuser@email.com',
+			password: '123456',
+			role: 'USER'
 		},
 	})
-	console.log("USER:",{ user })
 }
-
 main()
-	.then(() => prisma.$disconnect())
+	.then(async () => {
+		await prisma.$disconnect()
+	})
 	.catch(async (e) => {
-		console.error("ERROR:",e)
+		console.error(e)
 		await prisma.$disconnect()
 		process.exit(1)
 	})
