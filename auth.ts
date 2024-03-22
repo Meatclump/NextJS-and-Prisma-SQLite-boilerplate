@@ -6,11 +6,13 @@ import { prisma } from "@/lib/prisma"
 import authConfig from "@/auth.config"
 import { getUserById } from "@/data/user"
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation"
+import { getAccountByUserId } from "./data/accounts"
 
 export type ExtendedUser = DefaultSession["user"] & {
 	id: string
 	role: "ADMIN" | "USER"
 	isTwoFactorEnabled: boolean
+	isOAuth: boolean
 }
 
 declare module "next-auth" {
@@ -23,7 +25,7 @@ export const {
 	handlers: { GET, POST },
 	auth,
 	signIn,
-	signOut
+	signOut,
 } = NextAuth({
 	pages: {
 		signIn: "/auth/login",
@@ -39,7 +41,6 @@ export const {
 	},
 	callbacks: {
 		async signIn({ user, account }) {
-			console.log({user, account})
 			// Allow OAuth without email verification
 			if (account?.provider !== "credentials") return true
 			
@@ -51,8 +52,6 @@ export const {
 
 				if (existingUser.isTwoFactorEnabled) {
 					const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id)
-
-					console.log({twoFactorConfirmation})
 
 					if (!twoFactorConfirmation) return false
 
@@ -68,11 +67,6 @@ export const {
 			return false
 		},
 		async session({ token, session }) {
-			console.log({
-				sessionToken: token,
-				session,
-			})
-
 			if (token.sub && session.user) {
 				session.user.id = token.sub
 			}
@@ -84,13 +78,23 @@ export const {
 			if (session.user) {
 				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
 			}
+
+			if (session.user) {
+				session.user.name = token.name
+				session.user.email = token.email as string
+				session.user.isOAuth = token.isOAuth as boolean
+			}
 			return session
 		},
 		async jwt({ token }) {
 			if (!token.sub) return token
 			const existingUser = await getUserById(token.sub)
 			if (!existingUser) return token
+			const existingAccount = await getAccountByUserId(existingUser.id)
+			token.name = existingUser.name
+			token.email = existingUser.email
 			token.role = existingUser.role
+			token.isOAuth = !!existingAccount
 			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 			return token
 		}

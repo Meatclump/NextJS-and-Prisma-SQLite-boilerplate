@@ -6,7 +6,6 @@ import { getVerificationTokenByToken } from "@/data/verification-token"
 import { prisma } from "@/lib/prisma"
 
 export const newVerification = async (token: string) => {
-	console.log("token:",token)
 	const existingtoken = await getVerificationTokenByToken(token)
 
 	if (!existingtoken) {
