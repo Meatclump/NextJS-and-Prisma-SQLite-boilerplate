@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { UserRole } from "@prisma/client"
 import { toast } from "sonner"
 
-export const AdminPage = () => {
+const AdminPage = () => {
 	const onServerActionClick = () => {
 		admin()
 		.then((data) => {
