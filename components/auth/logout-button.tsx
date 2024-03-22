@@ -8,11 +8,15 @@ interface LogoutButtonProps {
 
 export const LogoutButton = ({ children }: LogoutButtonProps) => {
 	function onClick() {
+		console.log("logging out?")
 		logout()
 	}
 
 	return (
-		<span className="cursor-pointer w-full flex items-center py-0 px-3" onClick={() => {onclick}}>
+		<span
+			className="cursor-pointer w-full flex items-center py-0 px-3"
+			onClick={() => {onClick()}}
+		>
 			{children}
 		</span>
 	)

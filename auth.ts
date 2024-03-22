@@ -10,6 +10,7 @@ import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation
 export type ExtendedUser = DefaultSession["user"] & {
 	id: string
 	role: "ADMIN" | "USER"
+	isTwoFactorEnabled: boolean
 }
 
 declare module "next-auth" {
@@ -79,6 +80,10 @@ export const {
 			if (token.role && session.user) {
 				session.user.role = token.role as UserRole
 			}
+			
+			if (session.user) {
+				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
+			}
 			return session
 		},
 		async jwt({ token }) {
@@ -86,6 +91,7 @@ export const {
 			const existingUser = await getUserById(token.sub)
 			if (!existingUser) return token
 			token.role = existingUser.role
+			token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 			return token
 		}
 	},
