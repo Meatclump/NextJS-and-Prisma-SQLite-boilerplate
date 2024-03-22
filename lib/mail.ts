@@ -19,10 +19,11 @@ export const sendPasswordResetEmail = async (
 	token: string
 ) => {
 	const domain = process.env.NEXT_PUBLIC_APP_URL
+	const mailSender = process.env.MAIL_SENDER || ""
 	const resetLink = `${domain}/auth/new-password?token=${token}`
 
 	await resend.emails.send({
-		from: "onboarding@resend.dev",
+		from: mailSender,
 		to: email,
 		subject: "Reset Link",
 		html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`
@@ -34,10 +35,11 @@ export const sendVerificationEmail = async (
 	token: string
 ) => {
 	const domain = process.env.NEXT_PUBLIC_APP_URL
+	const mailSender = process.env.MAIL_SENDER || ""
 	const confirmLink = `${domain}/auth/new-verification?token=${token}`
 
 	await resend.emails.send({
-		from: "onboarding@resend.dev",
+		from: mailSender,
 		to: email,
 		subject: "Confirm your Email",
 		html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
